@@ -34,14 +34,8 @@ public class Main {
       dni = consola.next();
       cuenta.setDni(dni);
 
-      System.out.println("\nIngrese un monto a retirar");
-      monto = consola.nextDouble();
-      cuenta.setMonto(monto);
-
-      System.out.println("\nIngrese un saldo");
-
-      saldo = consola.nextDouble();
-      cuenta.setSaldo(saldo);
+      cuenta.ingresarDinero();
+      cuenta.retirar();
 
       listaClientes.add(cuenta);
     }

@@ -1,5 +1,7 @@
 package cuentaBancaria;
 
+import java.util.Scanner;
+
 public class CuentaBancaria {
 
   final double FACTOR_COMISION = 1000;
@@ -31,38 +33,72 @@ public class CuentaBancaria {
       this.monto = 0;
     }
   }
+  Scanner consola = new Scanner(System.in);
+
+
+
+
+  public void ingresarDinero() {
+
+    System.out.println("¿Desea depositar dinero? Digite 1 para SI, Digite 2 para NO");
+    int opcion = consola.nextInt();
+    switch (opcion) {
+      case 1:
+
+        System.out.println("Ingrese un monto a depositar");
+        double cantidad = consola.nextDouble();
+        this.saldo += cantidad;
+        this.monto += cantidad;
+        System.out.println("Se acredito: " + cantidad + " a la cuenta, su nuevo saldo es: " + this.saldo);
+
+      break;
+
+      case 2:
+        System.out.println("Eligió NO depositar");
+        break;
+      default: System.out.println("Ingrese 1 o 2");
+    }
+  }
+
+
+
+  public void retirar() {
+
+    System.out.println("¿Desea retirar dinero? Digite 1 para SI, Digite 2 para NO");
+    int opcion = consola.nextInt();
+    switch (opcion) {
+      case 1:
+
+        System.out.println("Ingrese un monto a retirar");
+
+        double montoRetirar = consola.nextDouble();
+        this.setMonto(montoRetirar);
+          monto -= calcularComisionDeRetiro();
+          verificarSaldo(calcularComisionDeRetiro());
+
+          saldo = this.saldo - monto;
+
+          System.out.println("Se debitaran: " + monto + " a la cuenta, su nuevo saldo es: " + this.saldo);
+        }
+    }
 
   private double calcularComisionDeRetiro() {
     if (this.monto >= FACTOR_COMISION) {
       int conversion = (int) (this.monto / FACTOR_COMISION);
       double comision = conversion * COMISION;
       return (conversion * FACTOR_COMISION) * (comision / 100);
+
     }
     return 0;
   }
 
-  public void ingresarDinero(double cantidad) {
-    if (cantidad > 0) {
-      this.saldo += cantidad;
-      System.out
-          .println("Se acredito: " + cantidad + " a la cuenta, su nuevo saldo es: " + this.saldo);
-    }
-  }
-
-  public void retirar(double monto) {
-    this.monto = monto;
-    if (verificarSaldo(calcularComisionDeRetiro())) {
-      this.saldo -= calcularComisionDeRetiro() + monto;
-    }
-
-  }
 
   private boolean verificarSaldo(double comision) {
     if (this.saldo - (this.monto + comision) < 0) {
-      System.out.println(
-          "Saldo insuficiente para la operación, se le efectuara un cargo de " + COMISION_SOBREGIRO
+      System.out.println("Saldo insuficiente para la operación, se le efectuara un cargo de " + COMISION_SOBREGIRO
               + " de comisión");
       this.saldo -= COMISION_SOBREGIRO;
+
       return false;
     }
     System.out.println("Se descontara una comision del saldo de: " + comision);
@@ -104,7 +140,7 @@ public class CuentaBancaria {
   }
 
   public String mostrarDatosCuenta(){
-    return ("Titular "+this.getTitular()+ " DNI: "+ this.getDni()+ " Monto a retirar: "+ this.getMonto()+ " Saldo Disponible: "+this.getSaldo());
+    return ("Titular "+this.getTitular()+ " DNI: "+ this.getDni()+ " Monto retirado "+ this.getMonto()+ " Saldo Disponible: "+this.getSaldo());
   }
 
 
